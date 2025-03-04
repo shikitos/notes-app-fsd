@@ -1,1 +1,70 @@
-# TO BE DEFINED
+networks:
+  recipes-network:
+    driver: bridge
+    external: true
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend.dev
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "${frontend_port}:${frontend_port}"
+    depends_on:
+      - backend
+    networks:
+      - recipes-network
+    env_file:
+      - .env
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:${backend_port}/api
+      - NODE_ENV=development
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "${backend_port}:${backend_port}"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - PORT=${backend_port}
+
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: "${postgres_user}"
+      POSTGRES_PASSWORD: "${postgres_password}"
+      POSTGRES_DB: "${postgres_db}"
+      PGDATABASE: "${postgres_db}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${postgres_db}"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+ 
+  adminer:
+    image: adminer
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${db_admin_port}:${db_admin_port}"
+ 
+volumes:
+  pgdata:
