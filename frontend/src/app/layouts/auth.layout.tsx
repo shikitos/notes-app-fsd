@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-type Props = PropsWithChildren<{}>;
+type Props = PropsWithChildren;
 
 export const AuthLayout = ({ children }: Props) => {
   return (
