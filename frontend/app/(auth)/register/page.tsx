@@ -1,1 +1,1 @@
-export { RegisterPage as default } from "views";
+export { RegisterPage as default } from 'views';

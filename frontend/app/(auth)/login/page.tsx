@@ -1,1 +1,1 @@
-export { LoginPage as default } from "views";
+export { LoginPage as default } from 'views';

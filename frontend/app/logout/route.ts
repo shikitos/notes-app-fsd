@@ -1,1 +1,1 @@
-export { LogoutRoute as GET } from "app";
+export { LogoutRoute as GET } from 'app';

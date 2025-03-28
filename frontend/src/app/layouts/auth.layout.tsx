@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren;
 
@@ -12,4 +12,4 @@ export const AuthLayout = ({ children }: Props) => {
       </body>
     </html>
   );
-}
+};

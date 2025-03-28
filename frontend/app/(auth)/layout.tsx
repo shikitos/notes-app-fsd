@@ -1,1 +1,1 @@
-export { AuthLayout as default } from "app";
+export { AuthLayout as default } from 'app';
